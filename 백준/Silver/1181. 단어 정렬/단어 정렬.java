@@ -18,17 +18,14 @@ public class Main {
             if (!list.contains(word)) list.add(word);
         }
 
-        Collections.sort(list, new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
+        Collections.sort(list, (o1, o2) ->  {  // 람다 표현식을 사용하여 Comparator 구현
                 if(o1.length() > o2.length()) {
                     return 1;
                 } else if(o1.length() < o2.length()) {
                     return -1;
                 } else {
-                    return o1.compareTo(o2);
+                    return o1.compareTo(o2); // 길이가 같으면 알파벳 순서로 비교
                 }
-            }
         });
 
         for(String word : list) {
