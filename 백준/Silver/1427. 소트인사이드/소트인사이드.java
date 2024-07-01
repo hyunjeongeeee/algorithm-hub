@@ -10,7 +10,6 @@ public class Main {
         String s = br.readLine();
         ArrayList<Integer> list = new ArrayList<>();
 
-        int N = Integer.parseInt(s);
         for (int i = 0; i < s.length(); i++) {
             list.add(s.charAt(i)-'0');
         }
