@@ -1,63 +1,69 @@
 import java.io.*;
-import java.util.ArrayDeque;
-import java.util.Deque;
 
-public class Main {
+// 투포인터로 풀이한 코드
+public class Main{
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
         int T = Integer.parseInt(br.readLine());
 
-        while(T-- > 0) {
-            Deque<Integer> deque = new ArrayDeque<>();
-            String p = br.readLine();   // 실행할함수 R , D
-            int n = Integer.parseInt(br.readLine());    // 숫자 갯수
-            String input = br.readLine(); // 입력받은 배열
-            String[] arr = input.substring(1, input.length() - 1).split(",");
+        while (T-- > 0) {
+            String p = br.readLine();   // 실행할 함수
+            int n = Integer.parseInt(br.readLine());
+            String input = br.readLine();
 
-            for (int i = 0; i < n; i++) {
-                deque.addLast(Integer.valueOf(arr[i]));
-            }
-
-            boolean isReverse = false; // 뒤집었을때 true, 정방향일때 false
-            boolean isError = false;   // 에러 여부
-            for (int i = 0; i < p.length(); i++) {
-
-                if (p.charAt(i) == 'R') {
-                    if (!isReverse) isReverse = true;
-                    else isReverse = false;
-                }
-                if (p.charAt(i) == 'D') {
-                    if (deque.isEmpty()) {
-                        isError = true;
-                        break;
-                    }
-
-                    if (!isReverse) deque.pollFirst();
-                    else deque.pollLast();
-
-                }
-
-            }
-
-            if (isError) {
-                bw.write("error\n");
-            } else {
-                bw.write("[");
-                while (!deque.isEmpty()) {
-                    if (!isReverse) bw.write(deque.pollFirst().toString());
-                    else bw.write(deque.pollLast().toString());
-                    if (!deque.isEmpty()) {
-                        bw.write(",");
-                    }
-                }
-                bw.write("]\n");
-            }
+            // "[]" 제거 후 -> split(",") 문자열 나누기
+            String[] arr = input.substring(1,input.length()-1).split(",");
+            bw.write(solution(p, arr, n));
         }
-
         bw.flush();
         bw.close();
         br.close();
+    }
 
+    static String solution(String p, String[] arr, int n) {
+        // 1 2 3 4
+        int left = 0;
+        int right = n;
+        boolean isReverse = false;
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < p.length(); i++) {
+
+            if (p.charAt(i) == 'R') {  // R 실행
+                if (!isReverse) isReverse = true;
+                else isReverse = false;
+            }
+
+            if (p.charAt(i) == 'D') {  // D 실행
+                if (!isReverse) left++;
+                else right--;
+            }
+
+            if (left > right) {
+                sb.append("error\n");
+                break;
+            }
+
+        }
+        if (left <= right) {
+
+            sb.append("[");
+            if (isReverse) {
+                for (int i = right-1; i >= left; i--) {
+                    sb.append(arr[i]);
+                    if (i != left) sb.append(",");
+                }
+            } else {
+                for (int i = left; i <= right-1; i++) {
+                    sb.append(arr[i]);
+                    if (i != right - 1) sb.append(",");
+                }
+            }
+            sb.append("]\n");
+
+        }
+        return sb.toString();
     }
 }
