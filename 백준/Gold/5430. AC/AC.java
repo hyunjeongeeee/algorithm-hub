@@ -1,11 +1,11 @@
 import java.io.*;
 
-// 투포인터로 풀이한 코드
-public class Main{
+public class Main {
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
         int T = Integer.parseInt(br.readLine());
 
         while (T-- > 0) {
@@ -15,6 +15,7 @@ public class Main{
 
             // "[]" 제거 후 -> split(",") 문자열 나누기
             String[] arr = input.substring(1,input.length()-1).split(",");
+
             bw.write(solution(p, arr, n));
         }
         bw.flush();
@@ -23,7 +24,7 @@ public class Main{
     }
 
     static String solution(String p, String[] arr, int n) {
-        // 1 2 3 4
+
         int left = 0;
         int right = n;
         boolean isReverse = false;
@@ -42,28 +43,26 @@ public class Main{
             }
 
             if (left > right) {
-                sb.append("error\n");
-                break;
+                return "error\n";
             }
 
         }
-        if (left <= right) {
 
-            sb.append("[");
-            if (isReverse) {
-                for (int i = right-1; i >= left; i--) {
-                    sb.append(arr[i]);
-                    if (i != left) sb.append(",");
-                }
-            } else {
-                for (int i = left; i <= right-1; i++) {
-                    sb.append(arr[i]);
-                    if (i != right - 1) sb.append(",");
-                }
+        sb.append("[");
+        if (isReverse) {
+            for (int i = right-1; i >= left; i--) {
+                sb.append(arr[i]);
+                if (i != left) sb.append(",");
             }
-            sb.append("]\n");
-
+        } else {
+            for (int i = left; i <= right-1; i++) {
+                sb.append(arr[i]);
+                if (i != right - 1) sb.append(",");
+            }
         }
+        sb.append("]\n");
+
         return sb.toString();
     }
+
 }
