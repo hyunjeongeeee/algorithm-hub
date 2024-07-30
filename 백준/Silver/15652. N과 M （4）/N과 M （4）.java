@@ -5,7 +5,6 @@ import java.util.StringTokenizer;
 
 public class Main {
 
-    static boolean[] visited;
     static int[] selected;
     static StringBuilder sb = new StringBuilder();
 
